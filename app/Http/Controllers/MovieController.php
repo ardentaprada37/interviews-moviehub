@@ -23,17 +23,17 @@ class MovieController extends Controller
         $isSearching = false;
         $errorMessage = null;
         
-        // If user has entered a search term, search for it
+ 
         if (!empty($search)) {
             $movies = $this->omdbService->searchMovies($search, $page);
             $isSearching = true;
         } else {
-            // Load popular movies by default
+         
             $movies = $this->omdbService->getPopularMovies($page);
             $isSearching = false;
         }
 
-        // Check for API errors
+      
         if (isset($movies['Error'])) {
             $errorMessage = $movies['Error'];
         }
