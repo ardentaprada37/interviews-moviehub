@@ -21,6 +21,7 @@ return [
     'favorite_added' => 'Movie added to favorites successfully!',
     'favorite_removed' => 'Movie removed from favorites successfully!',
     'no_movies_found' => 'No movies found',
+    'search_to_find_movies' => 'Search to find movies',
     'year' => 'Year',
     'rated' => 'Rated',
     'released' => 'Released',

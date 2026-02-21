@@ -16,10 +16,15 @@ class MovieController extends Controller
 
     public function index(Request $request)
     {
-        $search = $request->get('search', 'movie');
+        $search = $request->get('search', '');
         $page = $request->get('page', 1);
         
-        $movies = $this->omdbService->searchMovies($search, $page);
+        $movies = null;
+        
+        // Only search if user has entered a search term
+        if (!empty($search)) {
+            $movies = $this->omdbService->searchMovies($search, $page);
+        }
 
         if ($request->ajax()) {
             return response()->json($movies);

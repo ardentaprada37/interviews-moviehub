@@ -183,7 +183,7 @@
     </div>
 
     <div id="moviesContainer" class="row g-4">
-        @if(isset($movies['Search']))
+        @if($movies && isset($movies['Search']))
             @foreach($movies['Search'] as $movie)
             <div class="col-lg-3 col-md-4 col-sm-6 movie-card">
                 <div class="card h-100">
@@ -210,6 +210,13 @@
                 </div>
             </div>
             @endforeach
+        @elseif($movies === null)
+            <div class="col-12">
+                <div class="empty-state">
+                    <i class="bi bi-search"></i>
+                    <p>{{ __('messages.search_to_find_movies') }}</p>
+                </div>
+            </div>
         @else
             <div class="col-12">
                 <div class="empty-state">

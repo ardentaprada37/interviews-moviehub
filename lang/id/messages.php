@@ -21,6 +21,7 @@ return [
     'favorite_added' => 'Film berhasil ditambahkan ke favorit!',
     'favorite_removed' => 'Film berhasil dihapus dari favorit!',
     'no_movies_found' => 'Tidak ada film ditemukan',
+    'search_to_find_movies' => 'Cari untuk menemukan film',
     'year' => 'Tahun',
     'rated' => 'Rating',
     'released' => 'Dirilis',
