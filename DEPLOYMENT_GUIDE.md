@@ -39,8 +39,10 @@ git push -u origin main
 2. Select **"Database"** → **"Add MySQL"**
 3. Railway will automatically:
    - Create MySQL instance
-   - Set environment variables
+   - Set environment variables (`MYSQL_URL`, `MYSQLHOST`, `MYSQLPORT`, etc.)
    - Connect to your app
+
+**Note:** Railway automatically provides MySQL credentials. Your app is configured to use MySQL by default.
 
 ## Step 4: Configure Environment Variables
 
