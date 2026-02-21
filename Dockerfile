@@ -40,4 +40,4 @@ RUN chown -R www-data:www-data /var/www \
 EXPOSE 8080
 
 # Start application
-CMD ["sh", "-c", "echo 'Starting application...' && php artisan migrate --force && echo 'Migration done. Starting server...' && php artisan serve --host=0.0.0.0 --port=${PORT:-8080} --verbose"]
+CMD ["sh", "-c", "echo 'Starting application...' && php artisan migrate --force && php artisan db:seed --force && echo 'Migration and seeding done. Starting server...' && php artisan serve --host=0.0.0.0 --port=${PORT:-8080} --verbose"]
