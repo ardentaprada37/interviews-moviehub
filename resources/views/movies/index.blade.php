@@ -4,6 +4,19 @@
 
 @push('styles')
 <style>
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.section-title i {
+    color: #fb7185;
+    margin-right: 0.5rem;
+}
+
 .hero-section {
     text-align: center;
     margin-bottom: 3rem;
@@ -92,6 +105,25 @@
     font-size: 1rem;
 }
 
+.btn-clear-search {
+    position: absolute;
+    right: 180px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    z-index: 10;
+    transition: color 0.3s ease;
+}
+
+.btn-clear-search:hover {
+    color: #fb7185;
+}
+
 .movie-card {
     margin-bottom: 2rem;
 }
@@ -152,6 +184,18 @@
 #loadingIndicator {
     padding: 3rem 0;
 }
+
+.alert {
+    border-radius: 15px;
+    border: none;
+    background: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+    backdrop-filter: blur(10px);
+}
+
+.alert i {
+    margin-right: 0.5rem;
+}
 </style>
 @endpush
 
@@ -174,6 +218,11 @@
                            id="searchInput"
                            placeholder="{{ __('messages.search_movies') }}" 
                            value="{{ $search }}">
+                    @if($search)
+                    <button type="button" class="btn-clear-search" id="clearSearch" title="Clear search">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </button>
+                    @endif
                     <button class="btn btn-primary search-btn" type="submit">
                         <i class="bi bi-search"></i> {{ __('messages.search') }}
                     </button>
@@ -181,6 +230,31 @@
             </form>
         </div>
     </div>
+
+    <!-- Section Title -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="section-title">
+                @if($isSearching && $search)
+                    <i class="bi bi-search"></i> {{ __('messages.search_results_for') }}: "{{ $search }}"
+                @else
+                    <i class="bi bi-fire"></i> {{ __('messages.popular_movies') }}
+                @endif
+            </h2>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    @if($errorMessage)
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle"></i> {{ $errorMessage }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    @endif
 
     <div id="moviesContainer" class="row g-4">
         @if($movies && isset($movies['Search']))
@@ -210,13 +284,6 @@
                 </div>
             </div>
             @endforeach
-        @elseif($movies === null)
-            <div class="col-12">
-                <div class="empty-state">
-                    <i class="bi bi-search"></i>
-                    <p>{{ __('messages.search_to_find_movies') }}</p>
-                </div>
-            </div>
         @else
             <div class="col-12">
                 <div class="empty-state">
@@ -240,7 +307,8 @@
 let currentPage = 1;
 let currentSearch = '{{ $search }}';
 let isLoading = false;
-let hasMore = {{ isset($movies['Search']) ? 'true' : 'false' }};
+let hasMore = {{ isset($movies['Search']) && count($movies['Search']) > 0 ? 'true' : 'false' }};
+let isSearching = {{ $isSearching ? 'true' : 'false' }};
 
 document.addEventListener('DOMContentLoaded', function() {
     lazyLoadImages();
@@ -249,8 +317,20 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         currentSearch = document.getElementById('searchInput').value;
         currentPage = 1;
-        window.location.href = '{{ route('movies.index') }}?search=' + currentSearch;
+        if (currentSearch) {
+            window.location.href = '{{ route('movies.index') }}?search=' + encodeURIComponent(currentSearch);
+        } else {
+            window.location.href = '{{ route('movies.index') }}';
+        }
     });
+
+    // Clear search button
+    const clearBtn = document.getElementById('clearSearch');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+            window.location.href = '{{ route('movies.index') }}';
+        });
+    }
 
     window.addEventListener('scroll', function() {
         if (isLoading || !hasMore) return;

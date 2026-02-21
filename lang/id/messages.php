@@ -42,4 +42,9 @@ return [
     'my_favorites' => 'Film Favorit Saya',
     'no_favorites' => 'Anda belum memiliki film favorit.',
     'view_details' => 'Lihat Detail',
+    'popular_movies' => 'Film Populer',
+    'search_results' => 'Hasil Pencarian',
+    'search_results_for' => 'Hasil Pencarian untuk',
+    'demo_account' => 'Akun Demo',
+    'demo_credentials' => 'Username: aldmic | Password: 123abc123',
 ];

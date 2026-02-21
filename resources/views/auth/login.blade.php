@@ -296,6 +296,174 @@
             color: #fca5a5;
         }
 
+        .demo-credentials {
+            background: linear-gradient(135deg, rgba(251, 113, 133, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%);
+            border: 2px solid rgba(251, 113, 133, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-credentials::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #fb7185, #f97316, #fb7185);
+            border-radius: 15px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .demo-credentials:hover::before {
+            opacity: 0.3;
+        }
+
+        .demo-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .demo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #fb7185 0%, #f97316 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            box-shadow: 0 5px 15px rgba(251, 113, 133, 0.4);
+        }
+
+        .demo-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin: 0;
+        }
+
+        .demo-subtitle {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin: 0;
+        }
+
+        .credential-item {
+            background: rgba(10, 14, 39, 0.5);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .credential-item:hover {
+            background: rgba(10, 14, 39, 0.7);
+            border-color: rgba(251, 113, 133, 0.3);
+            transform: translateX(5px);
+        }
+
+        .credential-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .credential-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .credential-label i {
+            color: #fb7185;
+        }
+
+        .credential-value {
+            font-size: 1rem;
+            color: #f1f5f9;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+
+        .copy-btn {
+            background: rgba(251, 113, 133, 0.2);
+            border: 1px solid rgba(251, 113, 133, 0.3);
+            color: #fb7185;
+            padding: 0.4rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .copy-btn:hover {
+            background: rgba(251, 113, 133, 0.3);
+            border-color: rgba(251, 113, 133, 0.5);
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+        }
+
+        .quick-fill-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .quick-fill-btn:hover {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 1) 0%, rgba(168, 85, 247, 1) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
+        }
+
+        .quick-fill-btn i {
+            font-size: 1.1rem;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.3s ease;
+        }
+
         @media (max-width: 576px) {
             .login-card {
                 padding: 2.5rem 1.5rem;
@@ -339,6 +507,20 @@
                 </div>
             @endif
 
+            <div class="demo-credentials">
+                <div class="demo-header">
+                    <div class="demo-icon">
+                        <i class="bi bi-key-fill"></i>
+                    </div>
+                    <div>
+                        <h3 class="demo-title">{{ __('messages.demo_account') }}</h3>
+                        <p class="demo-subtitle">{{ __('messages.demo_credentials') }}</p>
+                    </div>
+                </div>
+            </div>
+
+            
+
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
@@ -352,7 +534,7 @@
                                id="username" 
                                name="username" 
                                class="form-control @error('username') is-invalid @enderror" 
-                               placeholder="aldmic"
+                              
                                value="{{ old('username') }}" 
                                required 
                                autofocus>
@@ -369,7 +551,7 @@
                                id="password" 
                                name="password" 
                                class="form-control @error('password') is-invalid @enderror" 
-                               placeholder="••••••••"
+                              
                                required>
                     </div>
                 </div>
@@ -409,6 +591,52 @@
     <script>
         function changeLanguage(lang) {
             window.location.href = '/lang/' + lang;
+        }
+
+        function copyToClipboard(text, element) {
+            navigator.clipboard.writeText(text).then(function() {
+                const copyBtn = element.querySelector('.copy-btn');
+                const copyText = copyBtn.querySelector('.copy-text');
+                const copyIcon = copyBtn.querySelector('i');
+                
+                // Change button state
+                copyBtn.classList.add('copied');
+                copyIcon.className = 'bi bi-check-circle-fill';
+                copyText.textContent = '{{ __('messages.copied') }}';
+                
+                // Add shake animation
+                element.classList.add('shake');
+                
+                // Reset after 2 seconds
+                setTimeout(function() {
+                    copyBtn.classList.remove('copied');
+                    copyIcon.className = 'bi bi-clipboard';
+                    copyText.textContent = '{{ __('messages.copy') }}';
+                    element.classList.remove('shake');
+                }, 2000);
+            });
+        }
+
+        function quickFillLogin() {
+            const usernameField = document.getElementById('username');
+            const passwordField = document.getElementById('password');
+            
+            // Fill the fields
+            usernameField.value = 'aldmic';
+            passwordField.value = 'aldmic';
+            
+            // Add visual feedback
+            usernameField.style.borderColor = '#22c55e';
+            passwordField.style.borderColor = '#22c55e';
+            
+            // Focus on the login button
+            document.querySelector('.btn-login').focus();
+            
+            // Reset border color after 1 second
+            setTimeout(function() {
+                usernameField.style.borderColor = '';
+                passwordField.style.borderColor = '';
+            }, 1000);
         }
     </script>
 </body>

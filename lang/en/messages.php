@@ -42,4 +42,9 @@ return [
     'my_favorites' => 'My Favorite Movies',
     'no_favorites' => 'You have no favorite movies yet.',
     'view_details' => 'View Details',
+    'popular_movies' => 'Popular Movies',
+    'search_results' => 'Search Results',
+    'search_results_for' => 'Search Results for',
+    'demo_account' => 'Demo Account',
+    'demo_credentials' => 'Username: aldmic | Password: 123abc123',
 ];
