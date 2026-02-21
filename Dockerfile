@@ -1,43 +1,24 @@
-FROM php:8.4-fpm
+FROM php:8.4-cli
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    nodejs \
-    npm
+    git curl libpng-dev libonig-dev libxml2-dev \
+    zip unzip nodejs npm
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mysqli mbstring exif pcntl bcmath gd
 
-# Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
 WORKDIR /var/www
+COPY . .
 
-# Copy application files
-COPY . /var/www
-
-# Install dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 RUN npm ci && npm run build
 
-# Set permissions
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www/storage \
-    && chmod -R 755 /var/www/bootstrap/cache
+    && chmod -R 775 storage bootstrap/cache
 
-# Expose port
 EXPOSE 8080
 
-# Start application with PHP built-in server
-CMD ["sh", "-c", "php artisan migrate --force && php artisan db:seed --force && php artisan config:cache && php artisan route:cache && php -S 0.0.0.0:${PORT:-8080} -t public"]
+CMD php artisan config:cache && \
+    php artisan route:cache && \
+    php -S 0.0.0.0:$PORT -t public
